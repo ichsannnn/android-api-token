@@ -13,14 +13,14 @@ import cf.larandroid.larandroid.RegisterActivity;
 
 public class Config {
     // Action Url
-    public static final String URL_LOGIN = "http://larandroid.cf/api/login";
-    public static final String URL_REGISTER = "http://larandroid.cf/api/register";
+    public static final String URL_LOGIN = "http://YOUR_URL/api/login";
+    public static final String URL_REGISTER = "http://YOUR_URL/api/register";
 
-    public static final String URL_INDEX = "http://larandroid.cf/api/phone/index";
-    public static final String URL_CREATE = "http://larandroid.cf/api/phone/create";
-    public static final String URL_SHOW = "http://larandroid.cf/api/phone/show/";
-    public static final String URL_UPDATE = "http://larandroid.cf/api/phone/update";
-    public static final String URL_DELETE = "http://larandroid.cf/api/phone/delete/";
+    public static final String URL_INDEX = "http://YOUR_URL/api/phone/index";
+    public static final String URL_CREATE = "http://YOUR_URL/api/phone/create";
+    public static final String URL_SHOW = "http://YOUR_URL/api/phone/show/";
+    public static final String URL_UPDATE = "http://YOUR_URL/api/phone/update";
+    public static final String URL_DELETE = "http://YOUR_URL/api/phone/delete/";
 
     // Value Name
     public static final String AUTH_NAME = "name";
