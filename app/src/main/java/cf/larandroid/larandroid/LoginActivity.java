@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public EditText txtPassword;
     private Button btnLogin;
     private Button btnToRegister;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,15 +57,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         param.put(Config.AUTH_USERNAME, username);
         param.put(Config.AUTH_PASSWORD, password);
 
+        pDialog = new ProgressDialog(LoginActivity.this);
+        pDialog.setMessage("Logging in . .");
+        pDialog.show();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Config.URL_LOGIN, new JSONObject(param),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
+                            SaveSharedPreference.setUserName(getApplication(), username);
+                            Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(i);
                             finish();
+                            pDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -73,7 +79,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Web service is in trouble!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Web service is in trouble!", Toast.LENGTH_SHORT).show();
+                        error.printStackTrace();
+                        pDialog.dismiss();
                     }
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(this);

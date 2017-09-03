@@ -1,5 +1,6 @@
 package cf.larandroid.larandroid;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public EditText txtPassword;
     private Button btnToLogin;
     private Button btnRegister;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +61,19 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         param.put(Config.AUTH_USERNAME, username);
         param.put(Config.AUTH_PASSWORD, password);
 
+        pDialog = new ProgressDialog(RegisterActivity.this);
+        pDialog.setMessage("Registering . .");
+        pDialog.show();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Config.URL_REGISTER, new JSONObject(param),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(i);
                             finish();
+                            pDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -76,7 +82,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Web service is in trouble!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Web service is in trouble!", Toast.LENGTH_SHORT).show();
+                        pDialog.dismiss();
                     }
                 });
 

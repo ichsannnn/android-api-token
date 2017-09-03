@@ -41,6 +41,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (SaveSharedPreference.getUserName(MainActivity.this).length() == 0) {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+            finish();
+        } else {
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -98,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Web service is in trouble!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Web service is in trouble!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -115,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (v == fabLogout) {
+            SaveSharedPreference.clearUserName(getApplicationContext());
             Intent i = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(i);
             finish();
